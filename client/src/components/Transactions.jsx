@@ -8,7 +8,7 @@ function Transactions({ search, month }) {
   const [perPage, setPerPage] = useState(10);
   const sendRequest = async () => {
     const res = await axios
-      .get(`${URL}/api/transactions?page=${page}`)
+      .get(`${URL}/api/transactions?page=${page}&perPage=${perPage}&search=${search}&month=${month}`)
       .catch((err) => {
         console.error(err);
       });
@@ -17,7 +17,7 @@ function Transactions({ search, month }) {
     return data;
   };
   useEffect(() => {
-    sendRequest().then((data) => setTransactions(data.docs));
+    sendRequest().then((data) => setTransactions(data));
   }, [search, month, page, perPage]);
   return (
     <>
@@ -34,22 +34,21 @@ function Transactions({ search, month }) {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => (
-            <tr>
-              <td>{transaction.id}</td>
-              <td>{transaction.title}</td>
+          {transactions.map((ele, i) => (
+            <tr key={i}>
+              <td>{ele.id}</td>
+              <td>{ele.title}</td>
               <td>
-                {transaction.description?.length <= 50
-                  ? transaction.description
-                  : (transaction.description
-                      ? transaction.description?.substring(0, 50)
-                      : "") + (transaction.description ? "..." : "")}
+                {ele.description?.length <= 50
+                  ? ele.description
+                  : (ele.description ? ele.description?.substring(0, 50) : "") +
+                    (ele.description ? "..." : "")}
               </td>
-              <td>{transaction.price}</td>
-              <td>{transaction.category}</td>
-              <td>{transaction.sold}</td>
+              <td>{ele.price}</td>
+              <td>{ele.category}</td>
+              <td>{ele.sold}</td>
               <td>
-                <img src={transaction.image} alt={transaction.title} />
+                <img src={ele.image} alt={ele.title} />
               </td>
             </tr>
           ))}

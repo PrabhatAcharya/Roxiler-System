@@ -1,0 +1,31 @@
+.searchSelect {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.searchSelect input {
+    background-color:#fce9a6;
+    padding: 13px;
+    border-radius: 100px;
+    font-size: medium;
+    border: none;
+}
+
+.searchSelect div {
+    background-color: #fce9a6;
+    padding: 13px;
+    border-radius: 10px;
+    width: 150px;
+}
+
+.searchSelect select {
+    background-color:#fce9a6;
+    border: none;
+    font-size: medium;
+    width: 100%;
+}
+
+.searchSelect select:focus {
+    outline: none;
+}
