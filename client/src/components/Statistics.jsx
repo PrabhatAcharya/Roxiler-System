@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./css/statistics.css";
 import axios from "axios";
+import { URL } from "../constant";
 function Statistics({ month }) {
-  const URL = "http://localhost:8000";
   const [statistics, setStatistics] = useState({
     totalSaleAmount: 0,
     totalSoldItems: 0,

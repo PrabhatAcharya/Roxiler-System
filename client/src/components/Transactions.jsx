@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./css/transactions.css";
+import { URL } from "../constant";
 function Transactions({ search, month }) {
-  const URL = "http://localhost:8000";
   const [transactions, setTransactions] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);

@@ -76,4 +76,42 @@ const getStatistics = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
-module.exports = { getAllTransactions, getStatistics };
+const priceRange = async (req, res) => {
+  try {
+    const { month = "January" } = req.query;
+
+    const transactions = await ProductModel.find({
+      $expr: {
+        $eq: [{ $month: "$dateOfSale" }, months.indexOf(month) + 1],
+      },
+    });
+
+    const sales = [];
+    for (let i = 100; i <= 1000; i += 100) {
+      sales.push({
+        range: {
+          from: i === 100 ? 0 : i - 100 + 1,
+          to: i === 1000 ? "above" : i,
+        },
+        count: 0,
+      });
+    }
+
+    for (let transaction of transactions) {
+      if (transaction.price <= 100) {
+        sales[0].count++;
+      } else if (transaction.price >= 901) {
+        sales[9].count++;
+      } else if (transaction.price % 100 === 0) {
+        sales[transaction.price / 100 - 1].count++;
+      } else {
+        sales[Math.floor(transaction.price / 100)].count++;
+      }
+    }
+
+    res.status(200).send(sales);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+module.exports = { getAllTransactions, getStatistics, priceRange };
